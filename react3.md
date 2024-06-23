@@ -1,0 +1,183 @@
+JSX 문법
+
+JSX과 XML
+웹 브라우저에 내장된 HTML 파서(parser)는 HTML 문서의 구문을 분석하는 과정에서 HTML 표준에 맞지 않는 경미한 오류라면 자체적으로 보정하여 렌더링하기 때문에 큰 문제가 발생하지 않습니다.
+
+하지만 XML 문서는 매우 규칙적이고 엄격합니다. JSX는 XML 구문에 자바스크립트 코드를 결합한 구문을 사용하기 때문에 JSX 구문을 작성할 때도 XML과 마찬가지로 XML 표준을 엄격하게 준수해야 합니다.
+
+따라서 JSX 구문이 Babel을 통해 자바스크립트 구문으로 제대로 변환되기 위해서는 다음과 같은 규칙들을 반드시 준수해야 합니다.
+
+XML에 대해 좀 더 자세히 알아보고 싶다면 XML 수업을 참고하시기 바랍니다.
+
+XML 구조 및 문법 수업 확인 ⇒
+
+요소는 반드시 닫혀야 합니다.
+HTML에서는 제대로 종료 태그를 사용하여 요소를 닫지 않아도 대부분 문제 없이 동작합니다. 하지만 JSX에서는 반드시 요소를 닫아야만 오류가 발생하지 않습니다.
+
+App.js
+export default function App() {
+return (
+<div>
+<h1>Hello, World!
+</div>
+);
+}
+
+만약 위의 코드처럼 <h1>요소를 닫지 않고 JSX 코드를 저장하면, 실행 중인 React 애플리케이션은 아래와 같은 오류를 발생시키며 동작을 멈출 것입니다.
+
+Console
+Cannot assign to read only property 'message' of object 'SyntaxError: /src/App.js: Unterminated JSX contents. (5:10)
+
+3 | <div>
+
+4 | <h1>Hello, World!
+
+> 5 | </div> | ^
+
+6 | );
+
+7 | }
+
+8 |'
+
+<img>나 <br>요소와 같은 빈 요소(void elements)도 반드시 슬래시(/)를 사용하여 self-closing을 해 줘야만 오류가 발생하지 않습니다.
+
+Self-closing에서 슬래시(/) 기호 앞의 띄어쓰기는 선택사항입니다.
+
+예제(App.js)
+export default function App() {
+return (
+<div>
+<h1>Void Elements</h1>
+<hr />
+<input type="text" name="name" />
+</div>
+);
+}
+
+컴포넌트에는 최상위 요소가 단 하나만 존재해야 합니다.
+컴포넌트(component)가 여러 개의 요소를 한 번에 반환할 수 있도록 React에서는 반드시 컴포넌트의 최상위 요소가 하나만 존재하도록 강제하고 있습니다.
+
+다음 코드에는 <h1>과 <p>요소 이렇게 2개의 최상위 요소가 존재하므로, 오류가 발생합니다.
+
+App.js
+export default function App() {
+return (
+<h1>Hello, World!</h1>
+<p>React도 안녕!</p>
+);
+}
+
+React v15 까지는 아래 코드처럼 <div>요소를 최상위 요소로 사용하여 나머지 요소들을 감싸주는 방식을 주로 사용했습니다. 하지만 이러한 방식은 단순히 JSX 문법을 맞추기 위해서 불필요한 <div>요소를 추가해야만 하기에 권장할 만한 방법은 아닙니다.
+
+App.js
+export default function App() {
+return (
+<div>
+<h1>Hello, World!</h1>
+<p>React도 안녕!</p>
+</div>
+);
+}
+최종 렌더링된 HTML 코드
+
+<div id="root">
+    <div>
+      <h1>Hello, World!</h1>
+      <p>React도 안녕!</p>
+    </div>
+</div>
+
+
+React DOM에 의해 관리되는 모든 요소들은 최종적으로 id 속성값이 root인 <div>요소 안에 렌더링됩니다. 이 <div>요소를 루트 DOM 노드라고 부릅니다.
+하지만 React v16부터는 이러한 불필요한 <div>요소의 사용을 재고할 수 있도록 Fragment라는 기능을 추가하였습니다.
+
+아래 코드처럼 <fragment>요소를 최상위 요소로 사용하면 별도의 요소를 추가하지 않고도 여러 자식 요소들을 그룹화 할 수 있습니다. 이러한 <fragment>요소는 HTML 페이지에는 실제 렌더링되지 않기 때문에 최종 결과물에 불필요한 요소가 추가되지 않습니다.
+
+App.js
+export default function App() {
+return (
+<fragment>
+<h1>Hello, World!</h1>
+<p>React도 안녕!</p>
+</fragment>
+);
+}
+최종 렌더링된 HTML 코드
+
+<div id="root">
+  <h1>Hello, World!</h1>
+  <p>React도 안녕!</p>
+</div>
+
+
+만약 <fragment>요소를 선언하는 것이 복잡하게 느껴진다면, 아래 코드처럼 축약형 문법으로도 Fragment 기능을 사용할 수 있습니다.
+
+예제(App.js)
+export default function App() {
+return (
+<>
+<h1>Hello, World!</h1>
+<p>React도 안녕!</p>
+</>
+);
+}
+
+단, Fragment의 축약형 문법에서는 키(key)와 속성(attribute)을 사용할 수 없습니다!
+자바스크립트 표현식은 중괄호({})로 감싸져야 합니다.
+JSX 구문에는 자바스크립트 표현식을 그대로 사용할 수 있습니다. 단, 자바스크립트 표현식을 사용할 때는 반드시 중괄호({})로 감싸줘야만 정상적으로 컴파일될 수 있습니다.
+
+예제(App.js)
+export default function App() {
+const name = "홍길동";
+return <h1>Hello, {name}</h1>;
+}
+
+JSX 주석
+JSX 구문에는 중괄호({})로 감싸기만 하면 자바스크립트 주석(comment)도 그대로 사용할 수 있습니다. 다만, 주석을 작성할 때 일반 자바스크립트 코드보다는 좀 더 신경을 쓸 부분이 있습니다.
+
+예제(App.js)
+export default function App() {
+return (
+<>
+{/_ 주석의 내용은 렌더링되지 않습니다! _/}
+/_ 중괄호로 감싸지 않으면 주석의 내용이 그대로 렌더링됩니다. _/
+<h1>Hello, World!</h1>
+{
+// 한 줄 주석
+}
+<p>React도 안녕!</p>
+{/_ 여러 줄
+주석 _/}
+</>
+);
+}
+
+만약 무심결에 아래 코드처럼 주석을 작성하게 되면, 곧바로 오류가 발생할 것입니다.
+
+한 줄 주석에 사용되는 ‘//’ 키워드는 자신의 오른쪽에 위치한 모든 코드를 주석으로 인식하기 때문에, JSX 구문에서 필수적인 오른쪽 중괄호(})를 찾지 못했기에 오류가 발생하게 됩니다.
+
+잘못된 코드
+export default function App() {
+return (
+<>
+<h1>Hello, World!</h1>
+{// 한 줄 주석}
+</>
+);
+}
+
+따라서 다음 코드와 같이 주석을 작성해야 합니다.
+
+예제(App.js)
+export default function App() {
+return (
+<>
+<h1>Hello, World!</h1>
+{
+// 이렇게 주석을 작성하던지,
+}
+{/_이렇게 주석을 작성해야만 합니다._/}
+</>
+);
+}
