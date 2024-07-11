@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /* eslint-disable */
 "use strict";
-//다양한 라이브러리 및 정보가 담겨있음 건드릴 일이 없음
+//다양한 라이브러리 및 정보가 담겨있음 건드릴 일이 없음(test)
 function $$SETUP_STATE(hydrateRuntimeState, basePath) {
   return hydrateRuntimeState(
     JSON.parse(
