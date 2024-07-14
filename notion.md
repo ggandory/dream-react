@@ -12,5 +12,6 @@ postcss 리액트에서 css에서 어떻게 적용하는지 알려줌
 크롬 스토어에서
 react developer tools 다운 받아주면 좋음
 
-test
-test2
+jsx구문을 작성할 때는 무조건 컴포넌트 하나에 태그 하나만 붙인다.
+
+개념적인 내용만 거의 들음
