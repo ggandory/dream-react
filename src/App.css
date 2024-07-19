@@ -7,7 +7,6 @@
 }
 
 .profile {
-  position: relative;
   width: 300px;
   text-align: center;
   padding: 1rem;
@@ -18,9 +17,16 @@
 }
 
 .photo {
-  width: 250px;
-  height: 250px;
+  width: 200px;
+  height: 200px;
   border-radius: 100%;
+}
+
+.avatar {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: auto;
 }
 
 .new {
