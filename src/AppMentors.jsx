@@ -1,20 +1,36 @@
 import React, { useState } from "react";
 
 export default function AppMentor() {
-  const [person, setPerson] = useState({
-    name: "엘리",
-    title: "개발자",
-    mentors: [
-      {
-        name: "밥",
-        title: "시니어개발자",
-      },
-      {
-        name: "제임스",
-        title: "시니어개발자",
-      },
-    ],
-  });
+  const [person, setPerson] = useState(initialPerson);
+  const handleUpdate = () => {
+    const prev = prompt(`누구의 이름을 바꾸고 싶은가요?`);
+    const current = prompt(`이름을 무엇으로 바꾸고 싶은가요?`);
+    setPerson((person) => ({
+      ...person,
+      mentors: person.mentors.map((mentor) => {
+        if (mentor.name === prev) {
+          return { ...mentor, name: current };
+        }
+        return mentor;
+      }),
+    }));
+  };
+  const handleAdd = () => {
+    const name = prompt(`멘토의 이름은?`);
+    const title = prompt(`멘토의 직함은?`);
+    setPerson((person) => ({
+      ...person,
+      mentors: [...person.mentors, { name, title }],
+    }));
+  };
+  const handleDelete = () => {
+    const name = prompt(`누구를 삭제하고 싶은가요?`);
+    setPerson((person) => ({
+      ...person,
+      mentors: person.mentors.filter((m) => m.name !== name),
+    }));
+  };
+
   return (
     <div>
       <h1>
@@ -37,22 +53,29 @@ export default function AppMentor() {
         //왜 객체 내부에서 값을 직접 변경해버리는 것은 업데이트가 되지 않는지
         //동일한 참조값에서 내용을 수정해봤자 리액트는 참조값을 가지고 새로운 업데이트가 일어났는지를 판단하므로 업데이트를 하지 않는다는데 이게 뭔소리임
         //참조값을 변경해도 업데이트로 인식 못하고 아예 새로운 참조값을 만들어서 거기에 변경내용을 적용해주면 리액트가 업데이트가 된다는 소리인지?
-        onClick={() => {
-          const prev = prompt(`누구의 이름을 바꾸고 싶은가요?`);
-          const current = prompt(`이름을 무엇으로 바꾸고 싶은가요?`);
-          setPerson((person) => ({
-            ...person,
-            mentors: person.mentors.map((mentor) => {
-              if (mentor.name === prev) {
-                return { ...mentor, name: current };
-              }
-              return mentor;
-            }),
-          }));
-        }}
+
+        //그리고 원래는 redux랑 mobx라이브러리를 사용을 했었다고 하는데 이거는 이제 사용안하는건지?
+        onClick={handleUpdate}
       >
         멘토의 이름을 바꾸기
       </button>
+      <button onClick={handleAdd}>멘토 추가하기</button>
+      <button onClick={handleDelete}>멘토 삭제하기</button>
     </div>
   );
 }
+
+const initialPerson = {
+  name: "엘리",
+  title: "개발자",
+  mentors: [
+    {
+      name: "밥",
+      title: "시니어개발자",
+    },
+    {
+      name: "제임스",
+      title: "시니어개발자",
+    },
+  ],
+};

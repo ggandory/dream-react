@@ -19,7 +19,7 @@ import React, { useState } from "react";
 
 export default function AppMentor(props) {
   const [person, setPerson] = useState({
-    name: "엘리",
+    name: "허건",
     title: "개발자",
     mentor: {
       name: "밥",
