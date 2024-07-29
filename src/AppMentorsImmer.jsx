@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useImmer } from 'use-immer';
-
+import React, { useState } from "react";
+import { useImmer } from "use-immer";
+//immer는 불변성을 유지하기 위한 기능이다. 업데이트 성능을 최적화 하기에 좋은 방법
 export default function AppMentorsImmer() {
   const [person, updatePerson] = useImmer(initialPerson);
   const handleUpdate = () => {
@@ -44,16 +44,16 @@ export default function AppMentorsImmer() {
 }
 
 const initialPerson = {
-  name: '엘리',
-  title: '개발자',
+  name: "엘리",
+  title: "개발자",
   mentors: [
     {
-      name: '밥',
-      title: '시니어개발자',
+      name: "밥",
+      title: "시니어개발자",
     },
     {
-      name: '제임스',
-      title: '시니어개발자',
+      name: "제임스",
+      title: "시니어개발자",
     },
   ],
 };
