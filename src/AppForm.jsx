@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export default function AppForm() {
-  const [form, setFrom] = useState({ name: '', email: '' });
+  const [form, setFrom] = useState({ name: "", email: "" });
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); //기존 페이지에 있어야하기 때문에 prventDefault해줘야함
     console.log(form);
   };
   const handleChange = (e) => {
@@ -12,19 +12,19 @@ export default function AppForm() {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor='name'>이름:</label>
+      <label htmlFor="name">이름:</label>
       <input
-        type='text'
-        id='name'
-        name='name'
+        type="text"
+        id="name"
+        name="name"
         value={form.name}
         onChange={handleChange}
       />
-      <label htmlFor='email'>이메일:</label>
+      <label htmlFor="email">이메일:</label>
       <input
-        type='email'
-        id='email'
-        name='email'
+        type="email"
+        id="email"
+        name="email"
         value={form.email}
         onChange={handleChange}
       />
